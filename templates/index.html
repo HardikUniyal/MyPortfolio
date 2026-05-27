@@ -9,9 +9,9 @@
             <div class="logo">MyPortfolio.</div>
             <ul class="nav-links">
                 <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="#">Projects</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
         <div class = "hero-section">
@@ -19,5 +19,44 @@
         <p>I am a third-year BCA student and an aspiring developer, driven by a high-performance mindset to build exceptional digital experiences.</p>
         <a href="#" class="btn">View My Work</a>
         </div>
+        <section id= "about" class="about-section">
+            <div class = "about-container">
+                <h1>About Me</h1>
+                <div class="about-text">
+                    <p>I am currently a third-year Bachelor of Computer Applications (BCA) student,Deeply passionate about cyber security and software engineering and full-stack development. My academic journey has helped me build a strong foundation in programming logic, algorithms, and database management system(DBMS). </p>
+                    <p>I don't jusr write code; I focus on understanding how things work under the hood. Currently, I am expanding my skill set by learning backend architectures, SQL database design, and version control workflows to build scalable, real-world applications.</p>
+                </div>
+            </div>
+        </section>
+        <section class="skills-section">
+            <div class="skill-container">
+                <h2>My Skills and Technologies</h2>
+                <div class="skill-card">python</div>
+                <div class="skill-card">HTML5 & CSS3</div>
+                <div class="skill-card">SQL / DBMS</div>
+                <div class="skill-card">Flask Framework</div>
+                <div class="skill-card">Git & GitHub</div>
+                <div class="skill-card">C & C++</div>
+                <div class="skill-card"> Cybersecurity(XSS) </div>
+            </div>
+        </section>
+        <section id ="Contact" class="contact-section">
+            <div class="contact-container">
+                <h2>Get In Touch</h2>
+                <p class="contact-subtext"> Have a project in mind and want to discuss an opportunity?</p>
+                <form action="#" method="POST" class="contact-form">
+                    <div class="input-group">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="input-group">
+                        <textarea name = "message" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </section>
     </Body>
 </html>
