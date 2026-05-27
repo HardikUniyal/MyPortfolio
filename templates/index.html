@@ -40,11 +40,20 @@
                 <div class="skill-card"> Cybersecurity(XSS) </div>
             </div>
         </section>
-        <section id ="Contact" class="contact-section">
+        <section id ="contact" class="contact-section">
             <div class="contact-container">
                 <h2>Get In Touch</h2>
                 <p class="contact-subtext"> Have a project in mind and want to discuss an opportunity?</p>
-                <form action="#" method="POST" class="contact-form">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{category}}">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="/" method="POST" class="contact-form">
                     <div class="input-group">
                         <input type="text" name="name" placeholder="Your Name" required>
                     </div>
