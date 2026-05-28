@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>My Portfolio</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href ="{{url_for('static', filename='style.css')}}">
     </head>
     <Body>
@@ -17,14 +18,18 @@
         <div class = "hero-section">
         <h1>Hi, I'm <span class= "highlight"> Hardik Uniyal</span></h1>
         <p>I am a third-year BCA student and an aspiring developer, driven by a high-performance mindset to build exceptional digital experiences.</p>
-        <a href="#" class="btn">View My Work</a>
+        <div class="social-links">
+            <a href="#" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+            <a href="#" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+        </div>
+        <a href="#projects" class="btn">View My Work</a>
         </div>
         <section id= "about" class="about-section">
             <div class = "about-container">
                 <h1>About Me</h1>
                 <div class="about-text">
                     <p>I am currently a third-year Bachelor of Computer Applications (BCA) student,Deeply passionate about cyber security and software engineering and full-stack development. My academic journey has helped me build a strong foundation in programming logic, algorithms, and database management system(DBMS). </p>
-                    <p>I don't jusr write code; I focus on understanding how things work under the hood. Currently, I am expanding my skill set by learning backend architectures, SQL database design, and version control workflows to build scalable, real-world applications.</p>
+                    <p>I don't just write code; I focus on understanding how things work under the hood. Currently, I am expanding my skill set by learning backend architectures, SQL database design, and version control workflows to build scalable, real-world applications.</p>
                 </div>
             </div>
         </section>
@@ -38,6 +43,42 @@
                 <div class="skill-card">Git & GitHub</div>
                 <div class="skill-card">C & C++</div>
                 <div class="skill-card"> Cybersecurity(XSS) </div>
+            </div>
+        </section>
+        <section id="projects" class="projects-section">
+            <div class="projects-container">
+                <h2>My Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h3>Portfolio Website</h3>
+                        <p> A full-stack responsive portfolio built with HTML, CSS, Flask, and SQLite. Features a functional contact form with a backend database.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank"><i class="fab fa-github">Code</i></a>
+                            a href="#" target="_blank"><i class="fab fa-external-link-alt">Live</i></a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3>To-Do List</h3>
+                        <p> A responsive list Website for listing daily tasks build with Html,CSS and Javascript used chatgpt for extra help. Features a functional timer and a marking system for completed tasks. </p>
+                        <div class="project-links">
+                            <a href="#" target="_blank"><i class="fab fa-github">Code</i></a>
+                            a href="#" target="_blank"><i class="fab fa-external-link-alt">Live</i></a>
+                        </div>
+                    </div>
+                    <div class="projects-grid">
+                    <div class="project-card">
+                        <h3>Coming soon</h3>
+                        <p> Currently working on my next big idea. This space will be updated with a new high-performance web application very soon.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank"><i class="fab fa-github">Code</i></a>
+                            a href="#" target="_blank"><i class="fab fa-external-link-alt">Live</i></a>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
             </div>
         </section>
         <section id ="contact" class="contact-section">

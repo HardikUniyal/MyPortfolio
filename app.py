@@ -30,6 +30,12 @@ def home():
         return redirect(url_for('home', _anchor='contact'))
 
     return render_template("index.html")
+@app.route("/admin")
+def admin():
+
+    all_messages = Contact.query.all()
+
+    return render_template("admin.html", messages=all_messages)
 
 if __name__ == "__main__":
     with app.app_context():
