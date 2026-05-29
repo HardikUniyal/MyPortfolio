@@ -197,7 +197,7 @@ body{
     color: #2c3e50;
     margin-bottom: 15px;
 }
-.projecr-card p{
+.project-card p{
     color: #666666;
     line-height: 1.6;
     margin-bottom: 20px;
@@ -211,6 +211,26 @@ body{
     transition: color 0.3s ease;
 }
 .project-links a:hover{
+    color: #2c3e50;
+}
+.education-section {
+    padding: 60px 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+.education-container{
+    max-width: 800px;
+    margin: 0 auto;
+}
+.education-card {
+    border-left: 4px solid #3498db;
+    padding: 20px;
+    background: #f4f7f6;
+    text-align: left;
+    margin-top: 20px;
+}
+.education-card h3 {
+    margin: 0;
     color: #2c3e50;
 }
 .contact-section{
