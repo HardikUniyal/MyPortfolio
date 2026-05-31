@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
-app.secret_key = "hardik_portfolio_secret"
+app.secret_key = "hardik_super_secret_key"
 
 
 #Database comfig (ENgine Setup)
@@ -16,6 +16,34 @@ class Contact(db.Model):
     email = db.Column(db.String(100),nullable=False)
     message = db.Column(db.Text, nullable=False)
 #Routes (webpages)
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        password = request.form['password']
+        if password == 'admin123':
+            session['is_admin'] = True
+            return redirect(url_for('admin'))
+        else:
+            return "Wrong Password! Hacker banne ki koshish naa karo."
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('is_admin', None)
+    return redirect(url_for('login'))
+@app.route('/delete/<int:id>')
+def delete_msg(id):
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
+    msg_to_delete = Contact.query.get_or_404(id)
+
+    try:
+        db.session.delete(msg_to_delete)
+        db.session.commit()
+        return redirect(url_for('admin'))
+    except:
+        return "Message cannot be deleted. "
+
 @app.route("/", methods =['GET','POST'])
 def home():
     if request.method == 'POST':
@@ -32,6 +60,8 @@ def home():
     return render_template("index.html")
 @app.route("/admin")
 def admin():
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
 
     all_messages = Contact.query.all()
 
