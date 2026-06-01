@@ -1,6 +1,18 @@
+import os
+from dotenv import load_dotenv
+from flask_mail import Mail, Message
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
+load_dotenv
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+mail = Mail(app)
 app.secret_key = "hardik_super_secret_key"
 
 
@@ -54,6 +66,16 @@ def home():
         new_entry = Contact(name=user_name, email=user_email, message=user_message)
         db.session.add(new_entry)
         db.session.commit()
+        try:
+            msg = Message('New Portfolio Alert!',
+            sender = os.environ.get('MAIL_USERNAME'),
+            recipients = [os.environ.get('MAIL_USERNAME')])
+
+            msg.body = f"Hello Hardik,\n\n Someone send you a mail:\n\nName: {user_name}\nEmail: {user_email}\nMessage:{user_message}"
+
+            mail.send(msg)
+        except Exception as e:
+            print("Email error while sending!:",e)
         flash("Thank you! Your message has been sent successfully,", "success")
         return redirect(url_for('home', _anchor='contact'))
 
