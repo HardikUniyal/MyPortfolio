@@ -1,4 +1,5 @@
 import os
+from threading import Thread
 from dotenv import load_dotenv
 from flask_mail import Mail, Message
 from flask import Flask, render_template, request, flash, redirect, url_for, session
@@ -56,6 +57,13 @@ def delete_msg(id):
     except:
         return "Message cannot be deleted. "
 
+def send_async_email(app, msg):
+    with app.app_context():
+        try:
+            mail.send(msg)
+        except Exception as e:
+            print("Background Email Error:", e)
+
 @app.route("/", methods =['GET','POST'])
 def home():
     if request.method == 'POST':
@@ -72,10 +80,9 @@ def home():
             recipients = [os.environ.get('MAIL_USERNAME')])
 
             msg.body = f"Hello Hardik,\n\n Someone send you a mail:\n\nName: {user_name}\nEmail: {user_email}\nMessage:{user_message}"
-
-            mail.send(msg)
+            Thread(target=send_async_email, args=(app, msg)).start()
         except Exception as e:
-            print("Email error while sending!:",e)
+            print("Email setup error!:",e)
         flash("Thank you! Your message has been sent successfully,", "success")
         return redirect(url_for('home', _anchor='contact'))
 
