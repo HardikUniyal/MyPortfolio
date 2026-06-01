@@ -4,6 +4,12 @@ from dotenv import load_dotenv
 from flask_mail import Mail, Message
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+import socket
+old_getaddrinfo = socket.getaddrinfo
+def new_getaddrinfo(*args, **kwargs):
+    responses = old_getaddrinfo(*args, **kwargs)
+    return [r for r in responses if r[0] == socket.AF_INET]
+socket.getaddrinfo = new_getaddrinfo
 app = Flask(__name__)
 load_dotenv
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
