@@ -1,10 +1,15 @@
 import os
-from threading import Thread
 from dotenv import load_dotenv
-from flask_mail import Mail, Message
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 import socket
+import requests
+def send_telegram_msg (user_name, user_email, user_msg):
+    TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
+    CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
+    message = f"New Portfolio Lead!\nName: {user_name}\nEmail: {user_email}\nMsg: {user_msg}"
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}&text={message}"
+    requests.get(url)
 old_getaddrinfo = socket.getaddrinfo
 def new_getaddrinfo(*args, **kwargs):
     responses = old_getaddrinfo(*args, **kwargs)
@@ -12,14 +17,6 @@ def new_getaddrinfo(*args, **kwargs):
 socket.getaddrinfo = new_getaddrinfo
 app = Flask(__name__)
 load_dotenv
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-
-mail = Mail(app)
 app.secret_key = "hardik_super_secret_key"
 
 
@@ -63,13 +60,6 @@ def delete_msg(id):
     except:
         return "Message cannot be deleted. "
 
-def send_async_email(app, msg):
-    with app.app_context():
-        try:
-            mail.send(msg)
-        except Exception as e:
-            print("Background Email Error:", e)
-
 @app.route("/", methods =['GET','POST'])
 def home():
     if request.method == 'POST':
@@ -81,20 +71,9 @@ def home():
         db.session.add(new_entry)
         db.session.commit()
         try:
-            msg = Message('New Portfolio Alert!',
-            sender = os.environ.get('MAIL_USERNAME'),
-            recipients = [os.environ.get('MAIL_USERNAME')])
-
-            msg.body = f"Hello Hardik,\n\n Someone send you a mail:\n\nName: {user_name}\nEmail: {user_email}\nMessage:{user_message}"
-            #Thread(target=send_async_email, args=(app, msg)).start()
-
-            print("__2. SENDING EMAIL DIRECTLY(WITHOUT THREAD))")
-            mail.send(msg)
-            print("---3. SUCCESS! ---")
+            send_telegram_msg(user_name,user_email,user_message)
         except Exception as e:
-            print("REAL ERROR!:",e)
-            import traceback
-            traceback.print_exc()
+            print("TELEGRAM ERROR!:",e)
         flash("Thank you! Your message has been sent successfully,", "success")
         return redirect(url_for('home', _anchor='contact'))
 
