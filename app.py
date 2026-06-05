@@ -86,9 +86,15 @@ def home():
             recipients = [os.environ.get('MAIL_USERNAME')])
 
             msg.body = f"Hello Hardik,\n\n Someone send you a mail:\n\nName: {user_name}\nEmail: {user_email}\nMessage:{user_message}"
-            Thread(target=send_async_email, args=(app, msg)).start()
+            #Thread(target=send_async_email, args=(app, msg)).start()
+
+            print("__2. SENDING EMAIL DIRECTLY(WITHOUT THREAD))")
+            mail.send(msg)
+            print("---3. SUCCESS! ---")
         except Exception as e:
-            print("Email setup error!:",e)
+            print("REAL ERROR!:",e)
+            import traceback
+            traceback.print_exc()
         flash("Thank you! Your message has been sent successfully,", "success")
         return redirect(url_for('home', _anchor='contact'))
 
