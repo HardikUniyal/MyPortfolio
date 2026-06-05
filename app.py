@@ -9,7 +9,10 @@ def send_telegram_msg (user_name, user_email, user_msg):
     CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
     message = f"New Portfolio Lead!\nName: {user_name}\nEmail: {user_email}\nMsg: {user_msg}"
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}&text={message}"
-    requests.get(url)
+    try:
+        requests.get(url)
+    except Exception as e:
+        print("Telegram request error", e)
 old_getaddrinfo = socket.getaddrinfo
 def new_getaddrinfo(*args, **kwargs):
     responses = old_getaddrinfo(*args, **kwargs)
