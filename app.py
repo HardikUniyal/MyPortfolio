@@ -1,5 +1,4 @@
 import os
-import time
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
@@ -23,6 +22,8 @@ socket.getaddrinfo = new_getaddrinfo
 app = Flask(__name__)
 load_dotenv
 app.secret_key = "hardik_super_secret_key"
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 
 
 #Database comfig (ENgine Setup)
@@ -68,11 +69,12 @@ def delete_msg(id):
 @app.route("/", methods =['GET','POST'])
 def home():
     if request.method == 'POST':
+        import time
         current_time = time.time()
         last_submit_time = session.get('last_submit_time')
 
-        if last_submit_time and (current_time - last_submit_time < 60):
-            remaining_time = int(60 - (current_time - last_submit_time))
+        if last_submit_time and (current_time - float(last_submit_time) < 60):
+            remaining_time = int(60 - (current_time - float(last_submit_time)))
             flash(f"please wait {remaining_time}seconds before sending another message.", "danger")
             return redirect(url_for('home', _anchor='contact'))
         
@@ -84,9 +86,10 @@ def home():
         db.session.add(new_entry)
         db.session.commit()
         try:
-            send_telegram_msg(user_name,user_email,user_message)
+            session['last_submit_time'] = current_time
+            send_telegram_msg(user_name, user_email, user_message)
         except Exception as e:
-            print("TELEGRAM ERROR!:",e)
+            print("TELEGRAM/SESSION ERROR!:",e)
         flash("Thank you! Your message has been sent successfully,", "success")
         return redirect(url_for('home', _anchor='contact'))
 
