@@ -1,4 +1,5 @@
 import os
+import time
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
@@ -13,6 +14,7 @@ def send_telegram_msg (user_name, user_email, user_msg):
         requests.get(url)
     except Exception as e:
         print("Telegram request error", e)
+
 old_getaddrinfo = socket.getaddrinfo
 def new_getaddrinfo(*args, **kwargs):
     responses = old_getaddrinfo(*args, **kwargs)
@@ -66,6 +68,14 @@ def delete_msg(id):
 @app.route("/", methods =['GET','POST'])
 def home():
     if request.method == 'POST':
+        current_time = time.time()
+        last_submit_time = session.get('last_submit_time')
+
+        if last_submit_time and (current_time - last_submit_time < 60):
+            remaining_time = int(60 - (current_time - last_submit_time))
+            flash(f"please wait {remaining_time}seconds before sending another message.", "danger")
+            return redirect(url_for('home', _anchor='contact'))
+        
         user_name = request.form.get('name')
         user_email = request.form.get('email')
         user_message = request.form.get('message')

@@ -106,7 +106,7 @@
                     <div class="input-group">
                         <textarea name = "message" rows="5" placeholder="Your Message" required></textarea>
                     </div>
-                    <button type="submit" class="btn">Send Message</button>
+                    <button type="submit" class="btn" onclick = "this.disabled= true; this.innerHTML='Sending...'; this.form.submit();">Send Message</button>
                 </form>
             </div>
         </section>
