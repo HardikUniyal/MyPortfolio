@@ -7,10 +7,13 @@ import requests
 def send_telegram_msg (user_name, user_email, user_msg):
     TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
     CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
+
+    print(f"DEBUG: Token loaded? {'yes' if TOKEN else 'NO'}, Chat ID Load? {'yes' if CHAT_ID else 'NO'}")
     message = f"New Portfolio Lead!\nName: {user_name}\nEmail: {user_email}\nMsg: {user_msg}"
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}&text={message}"
     try:
-        requests.get(url)
+        response = requests.get(url)
+        print(f" TELEGRAM : {response.text} ")
     except Exception as e:
         print("Telegram request error", e)
 
