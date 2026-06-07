@@ -8,17 +8,15 @@ def send_telegram_msg(user_name, user_email, user_msg):
     TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
     CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
     
-    # flush=True logs ko turant Render par bhejega
-    print(f"--- DEBUG: Loaded? {'YES' if TOKEN else 'NO!'}, ChatID load hua? {'YES' if CHAT_ID else 'NO!'} ---", flush=True)
-
     message = f"🚀 New Portfolio Lead!\nName: {user_name}\nEmail: {user_email}\nMsg: {user_msg}"
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}&text={message}"
     
     try:
-        response = requests.get(url)
-        print(f"--- TELEGRAM ANSWER: {response.text} ---", flush=True)
+        # Chup-chap request bhej dega
+        requests.get(url)
     except Exception as e:
-        print(f"Telegram Request Error: {e}", flush=True)
+        # Agar koi error aaya, toh sirf tabhi logs mein batayega
+        print(f"Telegram Notification Failed: {e}")
 old_getaddrinfo = socket.getaddrinfo
 def new_getaddrinfo(*args, **kwargs):
     responses = old_getaddrinfo(*args, **kwargs)
