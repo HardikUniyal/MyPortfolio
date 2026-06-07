@@ -4,19 +4,21 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from flask_sqlalchemy import SQLAlchemy
 import socket
 import requests
-def send_telegram_msg (user_name, user_email, user_msg):
+def send_telegram_msg(user_name, user_email, user_msg):
     TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
     CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
+    
+    # flush=True logs ko turant Render par bhejega
+    print(f"--- DEBUG: Loaded? {'YES' if TOKEN else 'NO!'}, ChatID load hua? {'YES' if CHAT_ID else 'NO!'} ---", flush=True)
 
-    print(f"DEBUG: Token loaded? {'yes' if TOKEN else 'NO'}, Chat ID Load? {'yes' if CHAT_ID else 'NO'}")
-    message = f"New Portfolio Lead!\nName: {user_name}\nEmail: {user_email}\nMsg: {user_msg}"
+    message = f"🚀 New Portfolio Lead!\nName: {user_name}\nEmail: {user_email}\nMsg: {user_msg}"
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}&text={message}"
+    
     try:
         response = requests.get(url)
-        print(f" TELEGRAM : {response.text} ")
+        print(f"--- TELEGRAM ANSWER: {response.text} ---", flush=True)
     except Exception as e:
-        print("Telegram request error", e)
-
+        print(f"Telegram Request Error: {e}", flush=True)
 old_getaddrinfo = socket.getaddrinfo
 def new_getaddrinfo(*args, **kwargs):
     responses = old_getaddrinfo(*args, **kwargs)
